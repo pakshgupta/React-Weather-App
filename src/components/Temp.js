@@ -1,9 +1,42 @@
-import React from "react";
+import React, {useState, useEffect } from "react";
 import "./style.css";
+import WeatherDisplay from "./WeatherDisplay";
+const weatherKey=process.env.REACT_APP_API_KEY;
+const baseUrl="https://api.openweathermap.org/data/2.5/weather"
 const Temp = () => {
+  const [searchData, setSearchData] = useState("Dehradun");
+  const [weatherData,setWeatherData]=useState({});
+  const getWeather = async () => {
+    try {
+      let url = `${baseUrl}?q=${searchData}&units=metric&appid=${weatherKey}`;
+      let res=await fetch(url);
+      let data=await res.json();
+      const {temp,humidity,pressure}=data.main;
+      const {speed}=data.wind;
+      const {main:weatherMood}=data.weather[0];
+      const {name}=data;
+      const {country,sunset}=data.sys;
+      const weatherInfo={
+        temp,
+        humidity,
+        pressure,
+        speed,
+        weatherMood,
+        name,
+        country,
+        sunset
+      };
+      setWeatherData(weatherInfo);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getWeather();
+  }, []);
   return (
     <>
-      <div className="wrap">
+      <div className="wrapper">
         <div className="search">
           <input
             type="search"
@@ -11,70 +44,15 @@ const Temp = () => {
             placeholder="Enter city..."
             autoFocus
             id="search"
+            value={searchData}
+            onChange={(e) => setSearchData(e.target.value)}
           />
-          <button className="searchButton" type="button">
+          <button className="searchButton" type="button" onClick={getWeather}>
             Search
           </button>
         </div>
       </div>
-      <article className="widget">
-        <div className="weatherIcon">
-          <i className={"wi wi-day-sunny"}></i>
-        </div>
-        <div className="weatherInfo">
-          <div className="temperature">
-            <span>15&deg;</span>
-          </div>
-          <div className="desciption">
-            <div className="weatherCondiction">Humid</div>
-            <div className="place">Dehradun, India</div>
-          </div>
-        </div>
-        <div className="date">{new Date().toLocaleString()}</div>
-        <div className="extra-temp">
-          <div className="temp-info-minmax">
-            <div className="two-sided-section">
-              <p>
-                <i className={"wi wi-sunset"}></i>
-              </p>
-              <p className="extra-info-leftside">
-                10:00 PM <br />
-                Sunset
-              </p>
-            </div>
-
-            <div className="two-sided-section">
-              <p>
-                <i className={"wi wi-humidity"}></i>
-              </p>
-              <p className="extra-info-leftside">
-                10:00 PM <br />
-                Humidity
-              </p>
-            </div>
-          </div>
-          <div className="weather-extra-info">
-            <div className="two-sided-section">
-                <p>
-                    <i className={"wi wi-rain"}></i>
-                </p>
-                <p className="extra-info-leftside">
-                    10:00 PM <br />
-                    Pressure
-                </p>
-                </div>
-                <div className="two-sided-section">
-                <p>
-                    <i className={"wi wi-strong-wind"}></i>
-                </p>
-                <p className="extra-info-leftside">
-                    10:00 PM <br />
-                    Speed
-                </p>
-                </div>
-            </div>
-        </div>
-      </article>
+     <WeatherDisplay weatherData={weatherData}/>
     </>
   );
 };
