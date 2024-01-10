@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const WeatherDisplay = ({ weatherData }) => {
   const [weatherState, setWeaterState] = useState("");
+  const [weatherConditions, setWeatherCondition] = useState('');
   const {
     temp,
     humidity,
@@ -18,34 +19,40 @@ const WeatherDisplay = ({ weatherData }) => {
       switch (weatherMood) {
         case "Clouds":
           setWeaterState("wi-day-cloudy");
-
+          setWeatherCondition("weather-clouds");
           break;
         case "Haze":
           setWeaterState("wi-fog");
-
+          setWeatherCondition("weather-haze");
           break;
         case "Clear":
           setWeaterState("wi-day-sunny");
-
+          setWeatherCondition("weather-clear");
           break;
-          case "Mist":
+        case "Mist":
           setWeaterState("wi-dust");
-
+          setWeatherCondition("weather-smoke");
           break;
-
+          case "Rain":
+            setWeaterState("wi-rain");
+            setWeatherCondition("weather-rain");
+            case "Snow":
+              setWeaterState("wi-snow");
+              setWeatherCondition("weather-snow");
         default:
           setWeaterState("wi-day-sunny");
           break;
       }
     }
   }, [weatherMood]);
+
   let sec = sunset;
   let date = new Date(sec * 1000);
   let timeStr = `${date.getHours()}:${date.getMinutes()}`;
   return (
     <>
-      <article className="widget">
-        <div className="weatherIcon">
+      <article className={`widget`}>
+        <div className={` weatherIcon ${weatherConditions}`}>
           <i className={`wi ${weatherState}`}></i>
         </div>
         <div className="weatherInfo">

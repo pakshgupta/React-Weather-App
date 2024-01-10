@@ -28,6 +28,27 @@ body {
   display: grid;
   place-items: center;
 }
+.weather-clouds{
+  background-image: url('../images/cloud.jpg');
+}
+.weather-haze{
+  background-image: url('../images/fog.jpg');
+}
+.weather-clear{
+  background-image: url('../images/clear.jpg');
+}
+.weather-rain{
+  background-image: url('../images/rain.jpg');
+}
+.weather-storm{
+  background-image: url('../images/storm.jpg');
+}
+.weather-snow{
+  background-image: url('../images/snow.jpg');
+}
+.weather-smoke{
+  background-image: url('../images/smoke.jpg');
+}
 .wrapper{
   margin-bottom: 10px;
 }
@@ -46,7 +67,7 @@ body {
   height: 50%;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  background: #fafafa;
+
   font-family: weathericons;
   display: flex;
   align-items: center;
@@ -230,7 +251,7 @@ body {
   height: 50%;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  background: #fafafa;
+ 
   font-family: weathericons;
   display: flex;
   align-items: center;
